@@ -7,7 +7,7 @@ PanelWindow {
 
     property int shapeWidth: 400
     property int shapeHeight: 30
-    property int slant: 32
+    property int slant: 30
 
     color: "transparent"
 
