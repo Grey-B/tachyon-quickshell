@@ -26,7 +26,86 @@ PanelWindow {
     implicitHeight: shapeHeight
 
     Shape {
+        id: leftBar
+        anchors {
+            left: parent.left
+            verticalCenter: parent.verticalCenter
+        }
+
+        width: root.shapeWidth
+        height: root.shapeHeight
+
+        ShapePath {
+            fillColor: "#FFFFFF"
+            strokeColor: "transparent"
+
+            startX: root.slant
+            startY: 0
+
+            PathLine {
+                x: root.shapeWidth
+                y: 0
+            }
+
+            PathLine {
+                x: root.shapeWidth - root.slant
+                y: root.shapeHeight
+            }
+
+            PathLine {
+                x: 0
+                y: root.shapeHeight
+            }
+
+            PathLine {
+                x: root.slant
+                y: 0
+            }
+        }
+    }
+
+    Shape {
+        id: centerBar
         anchors.centerIn: parent
+
+        width: root.shapeWidth
+        height: root.shapeHeight
+
+        ShapePath {
+            fillColor: "#FFFFFF"
+            strokeColor: "transparent"
+
+            startX: root.slant
+            startY: 0
+
+            PathLine {
+                x: root.shapeWidth
+                y: 0
+            }
+
+            PathLine {
+                x: root.shapeWidth - root.slant
+                y: root.shapeHeight
+            }
+
+            PathLine {
+                x: 0
+                y: root.shapeHeight
+            }
+
+            PathLine {
+                x: root.slant
+                y: 0
+            }
+        }
+    }
+
+    Shape {
+        id: rightBar
+        anchors {
+            right: parent.right
+            verticalCenter: parent.verticalCenter
+        }
 
         width: root.shapeWidth
         height: root.shapeHeight
