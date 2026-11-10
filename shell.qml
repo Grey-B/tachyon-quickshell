@@ -36,7 +36,7 @@ PanelWindow {
         height: root.shapeHeight
 
         ShapePath {
-            fillColor: "#FFFFFF"
+            fillColor: Colors.bar
             strokeColor: "transparent"
 
             startX: root.slant
@@ -72,7 +72,7 @@ PanelWindow {
         height: root.shapeHeight
 
         ShapePath {
-            fillColor: "#FFFFFF"
+            fillColor: Colors.bar
             strokeColor: "transparent"
 
             startX: root.slant
@@ -111,7 +111,7 @@ PanelWindow {
         height: root.shapeHeight
 
         ShapePath {
-            fillColor: "#FFFFFF"
+            fillColor: Colors.bar
             strokeColor: "transparent"
 
             startX: root.slant
