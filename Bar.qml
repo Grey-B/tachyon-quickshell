@@ -137,8 +137,8 @@ PanelWindow {
             anchors.centerIn: parent
             color: Colors.main1
             font {
-                family: Font.fontFamily
-                pixelSize: Font.fontSize
+                family: Fonts.fontFamily
+                pixelSize: Fonts.fontSize
                 bold: true }
             text: Qt.formatDateTime(new Date(), "ddd, dd MMM - HH:mm")
             Timer {
@@ -199,8 +199,8 @@ PanelWindow {
                 text: "CPU: " + memUsage + "%"
                 color: memUsage >= 80 ? Colors.main2 : Colors.main1
                 font { 
-                    family: Font.fontFamily
-                    pixelSize: Font.fontSize
+                    family: Fonts.fontFamily
+                    pixelSize: Fonts.fontSize
                     bold: true
                 }
             }
