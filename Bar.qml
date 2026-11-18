@@ -15,10 +15,8 @@ Scope {
     property int shapeHeight: 30
     property int slant: 30
 
-    property int cpuUsage: 0
-    property int memUsage: 0
-    property var lastCpuIdle: 0
-    property var lastCpuTotal: 0
+    property string networkInfo: "Disconnected"
+    property string networkType: "disconnected"
         
     Variants {
         model: Quickshell.screens
@@ -42,18 +40,20 @@ Scope {
             implicitHeight: shapeHeight
 
             Process {
-                id: cpuProc
-                command: ["sh", "-c", "free | grep Mem"]
-                stdout: SplitParser {
-                    onRead: data => {
-                        if (!data) return
-                        var parts = data.trim().split(/\s+/)
-                        var total = parseInt(parts[1]) || 1
-                        var used = parseInt(parts[2]) || 0
-                        memUsage = Math.round(100 * used / total)
-                        }
-                    }
-                Component.onCompleted: running = true
+                id: netProc
+                command: ["sh", "-c", "eth=$(nmcli -t -f type,state dev 2>/dev/null | grep '^ethernet:connected'); if [ -n \"$eth\" ]; then echo 'ethernet:Ethernet'; else wifi=$(nmcli -t -f active,ssid dev wifi 2>/dev/null | grep '^yes' | cut -d: -f2); if [ -n \"$wifi\" ]; then echo \"wifi:$wifi\"; else echo 'disconnected:'; fi; fi"]
+                running: true
+
+                stdout: StdioCollector {
+                onStreamFinished: {
+                    const result = text.trim()
+                    const colonIdx = result.indexOf(':')
+                    const type = result.substring(0, colonIdx)
+                    const info = result.substring(colonIdx + 1)
+                    root.networkType = type
+                    root.networkInfo = info || "Disconnected"
+                }
+                }
             }
 
             // Update your timer to run both processes
@@ -63,6 +63,7 @@ Scope {
                 repeat: true
                 onTriggered: {
                     cpuProc.running = true
+                    netProc.running = true
                 }
             }
 
@@ -228,21 +229,13 @@ Scope {
                 }
 
                 RowLayout {
-                    anchors.fill: parent
-                    anchors.leftMargin: 32
-                    anchors.rightMargin: 32
-                    spacing: 8
-
-                    // CPU
-                    Text {
-                        text: "CPU: " + memUsage + "%"
-                        color: memUsage >= 80 ? Colors.main3 : Colors.main1
-                        font { 
-                            family: Fonts.fontFamily
-                            pixelSize: Fonts.fontSize
-                            bold: true
-                        }
+                    anchors {
+                        right: parent.right
+                        verticalCenter: parent.verticalCenter
                     }
+                    anchors.leftMargin: 8
+                    anchors.rightMargin: 8
+                    spacing: 8
 
                     Rectangle {
                     implicitHeight: 24
@@ -382,8 +375,8 @@ Scope {
                     color: "transparent"
                     Accessible.role: Accessible.StaticText
                     Accessible.name: {
-                        if (SystemInfo.networkType === "ethernet") return "Network: Ethernet"
-                        if (SystemInfo.networkType === "wifi") return "Network: WiFi " + SystemInfo.networkInfo
+                        if (networkType === "ethernet") return "Network: Ethernet"
+                        if (networkType === "wifi") return "Network: WiFi " + networkInfo
                         return "Network: Disconnected"
                     }
 
@@ -395,17 +388,17 @@ Scope {
                         Text {
                         anchors.verticalCenter: parent.verticalCenter
                         text: {
-                            if (SystemInfo.networkType === "ethernet") return "󰈀"
-                            if (SystemInfo.networkType === "wifi") return "󰖩"
+                            if (networkType === "ethernet") return "󰈀"
+                            if (networkType === "wifi") return "󰖩"
                             return "󰖪"
                         }
-                        color: SystemInfo.networkType === "disconnected" ? Colors.main3 : Colors.main2
-                        font.pixelSize: 14
+                        color: networkType === "disconnected" ? Colors.main3 : Colors.main1
+                        font.pixelSize: Fonts.fontSize
                         font.family: Fonts.fontFamily
                         }
                         Text {
                         anchors.verticalCenter: parent.verticalCenter
-                        text: SystemInfo.networkInfo
+                        text: networkInfo
                         color: Colors.main1
                         font.pixelSize: Fonts.fontSize
                         font.family: Fonts.fontFamily
