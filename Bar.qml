@@ -130,6 +130,24 @@ PanelWindow {
                 y: 0
             }
         }
+
+        // Clock
+        Text {
+            id: clock
+            anchors.centerIn: parent
+            color: Colors.main1
+            font {
+                family: Font.fontFamily
+                pixelSize: Font.fontSize
+                bold: true }
+            text: Qt.formatDateTime(new Date(), "ddd, dd MMM - HH:mm")
+            Timer {
+                interval: 1000
+                running: true
+                repeat: true
+                onTriggered: clock.text = Qt.formatDateTime(new Date(), "ddd, dd MMM - HH:mm")
+            }
+        }
     }
 
     Shape {
@@ -179,8 +197,12 @@ PanelWindow {
             // CPU
             Text {
                 text: "CPU: " + memUsage + "%"
-                color: Colors.main1
-                font { family: Font.fontFamily; pixelSize: Font.fontSize; bold: true }
+                color: memUsage >= 80 ? Colors.main2 : Colors.main1
+                font { 
+                    family: Font.fontFamily
+                    pixelSize: Font.fontSize
+                    bold: true
+                }
             }
         }
     }
