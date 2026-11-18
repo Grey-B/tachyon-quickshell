@@ -112,8 +112,8 @@ PanelWindow {
                 text: index + 1
                 color: isActive ? Colors.main2 : (ws ? Colors.main1 : Colors.main3)
                 font { 
-                    family: Fpnts.fontFamily
-                    pixelSize: Fpnts.fontSize
+                    family: Fonts.fontFamily
+                    pixelSize: Fonts.fontSize
                     bold: true }
                 MouseArea {
                     anchors.fill: parent
