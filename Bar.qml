@@ -180,7 +180,7 @@ PanelWindow {
             Text {
                 text: "CPU: " + memUsage + "%"
                 color: Colors.main1
-                font { family: root.fontFamily; pixelSize: root.fontSize; bold: true }
+                font { family: Font.fontFamily; pixelSize: Font.fontSize; bold: true }
             }
         }
     }
