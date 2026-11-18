@@ -4,5 +4,5 @@ import Quickshell
 import QtQuick
 
 Singleton {
-    readonly property color barBg: "#35105F"
+    readonly property color bg: "#35105F"
 }
