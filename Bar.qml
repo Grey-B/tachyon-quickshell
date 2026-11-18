@@ -62,7 +62,6 @@ Scope {
                 running: true
                 repeat: true
                 onTriggered: {
-                    cpuProc.running = true
                     netProc.running = true
                 }
             }
@@ -229,17 +228,13 @@ Scope {
                 }
 
                 RowLayout {
-                    anchors {
-                        right: parent.right
-                        verticalCenter: parent.verticalCenter
-                    }
-                    anchors.leftMargin: 8
-                    anchors.rightMargin: 8
+                    anchors.fill: parent
+                    anchors.leftMargin: 48
+                    anchors.rightMargin: 16
                     spacing: 8
 
                     Rectangle {
                     implicitHeight: 24
-                    implicitWidth: trayIcons.implicitWidth + 4
                     radius: 12
                     color: "transparent"
 
@@ -302,7 +297,6 @@ Scope {
 
                 Rectangle {
                     height: 24
-                    width: volContent.width + 12
                     radius: 12
                     color: "transparent"
 
@@ -370,7 +364,6 @@ Scope {
 
                 Rectangle {
                     height: 24
-                    width: netContent.width + 12
                     radius: 12
                     color: "transparent"
                     Accessible.role: Accessible.StaticText
