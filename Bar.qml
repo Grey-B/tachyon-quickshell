@@ -1,5 +1,7 @@
 import Quickshell
 import Quickshell.Io
+import Quickshell.Wayland
+import Quickshell.Hyprland
 import QtQuick
 import QtQuick.Shapes
 import QtQuick.Layouts
@@ -93,6 +95,32 @@ PanelWindow {
                 x: root.slant
                 y: 0
             }
+        }
+
+        RowLayout {
+        anchors.fill: parent
+        anchors.leftMargin: 32
+        anchors.rightMargin: 32
+        spacing: 8
+
+        // Workspaces
+        Repeater {
+            model: 8
+            Text {
+                property var ws: Hyprland.workspaces.values.find(w => w.id === index + 1)
+                property bool isActive: Hyprland.focusedWorkspace?.id === (index + 1)
+                text: index + 1
+                color: isActive ? Colors.main2 : (ws ? Colors.main1 : Colors.main3)
+                font { 
+                    family: Fpnts.fontFamily
+                    pixelSize: Fpnts.fontSize
+                    bold: true }
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: Hyprland.dispatch("workspace " + (index + 1))
+                }
+            }
+        }
         }
     }
 
@@ -197,7 +225,7 @@ PanelWindow {
             // CPU
             Text {
                 text: "CPU: " + memUsage + "%"
-                color: memUsage >= 80 ? Colors.main2 : Colors.main1
+                color: memUsage >= 80 ? Colors.main3 : Colors.main1
                 font { 
                     family: Fonts.fontFamily
                     pixelSize: Fonts.fontSize
