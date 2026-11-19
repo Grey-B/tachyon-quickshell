@@ -227,10 +227,11 @@ Scope {
 
                 RowLayout {
                     anchors.fill: parent
-                    anchors.leftMargin: 48
-                    anchors.rightMargin: 16
+                    anchors.leftMargin: 64
+                    anchors.rightMargin: 64
                     spacing: 8
 
+                    // System Tray
                     Rectangle {
                     implicitHeight: 24
                     radius: 12
@@ -238,7 +239,10 @@ Scope {
 
                         RowLayout {
                         id: trayIcons
-                        anchors.centerIn: parent
+                        anchors {
+                            right: parent.right
+                            verticalCenter: parent.verticalCenter
+                        }
                         spacing: 2
 
                         Repeater {
@@ -293,6 +297,15 @@ Scope {
                         }
                 }
 
+                // Divisor
+                Rectangle {
+                    anchors.centerIn: parent
+                    width: 1
+                    height: 16
+                    color: Colors.main1
+                }
+
+                // Volume
                 Rectangle {
                     height: 24
                     radius: 12
@@ -312,8 +325,10 @@ Scope {
                     spacing: 6
 
                     Text {
-                        anchors.verticalCenter: parent.verticalCenter
-                        text: {
+                        anchors {
+                            right: parent.right
+                            verticalCenter: parent.verticalCenter
+                        }                        text: {
                         const sink = Pipewire.defaultAudioSink;
                         if (!sink || !sink.audio || sink.audio.muted || sink.audio.volume <= 0) return "󰖁";
                         if (sink.audio.volume < 0.33) return "󰕿";
