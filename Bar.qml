@@ -15,8 +15,8 @@ Scope {
     property int shapeHeight: 30
     property int slant: 30
 
-    property string networkInfo: "Disconnected"
-    property string networkType: "disconnected"
+    // property string networkInfo: "Disconnected"
+    // property string networkType: "disconnected"
         
     Variants {
         model: Quickshell.screens
@@ -56,15 +56,15 @@ Scope {
                 }
             }
 
-            // Update your timer to run both processes
-            Timer {
-                interval: 2000
-                running: true
-                repeat: true
-                onTriggered: {
-                    netProc.running = true
-                }
-            }
+            // Update your timer to run processes
+            // Timer {
+            //     interval: 2000
+            //     running: true
+            //     repeat: true
+            //     onTriggered: {
+            //         netProc.running = true
+            //     }
+            // }
 
             PwObjectTracker {
                 objects: [Pipewire.defaultAudioSink]
@@ -362,42 +362,42 @@ Scope {
                     }
                 }
 
-                Rectangle {
-                    height: 24
-                    radius: 12
-                    color: "transparent"
-                    Accessible.role: Accessible.StaticText
-                    Accessible.name: {
-                        if (networkType === "ethernet") return "Network: Ethernet"
-                        if (networkType === "wifi") return "Network: WiFi " + networkInfo
-                        return "Network: Disconnected"
-                    }
+                // Rectangle {
+                //     height: 24
+                //     radius: 12
+                //     color: "transparent"
+                //     Accessible.role: Accessible.StaticText
+                //     Accessible.name: {
+                //         if (networkType === "ethernet") return "Network: Ethernet"
+                //         if (networkType === "wifi") return "Network: WiFi " + networkInfo
+                //         return "Network: Disconnected"
+                //     }
 
-                    Row {
-                        id: netContent
-                        anchors.centerIn: parent
-                        spacing: 6
+                //     Row {
+                //         id: netContent
+                //         anchors.centerIn: parent
+                //         spacing: 6
 
-                        Text {
-                        anchors.verticalCenter: parent.verticalCenter
-                        text: {
-                            if (networkType === "ethernet") return "󰈀"
-                            if (networkType === "wifi") return "󰖩"
-                            return "󰖪"
-                        }
-                        color: networkType === "disconnected" ? Colors.main3 : Colors.main1
-                        font.pixelSize: Fonts.fontSize
-                        font.family: Fonts.fontFamily
-                        }
-                        Text {
-                        anchors.verticalCenter: parent.verticalCenter
-                        text: networkInfo
-                        color: Colors.main1
-                        font.pixelSize: Fonts.fontSize
-                        font.family: Fonts.fontFamily
-                        }
-                    }
-                    }
+                //         Text {
+                //         anchors.verticalCenter: parent.verticalCenter
+                //         text: {
+                //             if (networkType === "ethernet") return "󰈀"
+                //             if (networkType === "wifi") return "󰖩"
+                //             return "󰖪"
+                //         }
+                //         color: networkType === "disconnected" ? Colors.main3 : Colors.main1
+                //         font.pixelSize: Fonts.fontSize
+                //         font.family: Fonts.fontFamily
+                //         }
+                //         Text {
+                //         anchors.verticalCenter: parent.verticalCenter
+                //         text: networkInfo
+                //         color: Colors.main1
+                //         font.pixelSize: Fonts.fontSize
+                //         font.family: Fonts.fontFamily
+                //         }
+                //     }
+                //     }
                 }
             }
         }
