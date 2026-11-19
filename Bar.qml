@@ -88,7 +88,13 @@ Scope {
                 height: root.shapeHeight
 
                 ShapePath {
-                    fillColor: Colors.bg1
+                    fillGradient: RadialGradient {
+                        centerX: root.shapeWidth / 2; centerY: root.shapeHeight / 2
+                        centerRadius: 200
+                        focalX: centerX; focalY: centerY
+                        GradientStop { position: 0.0; color: Colors.bg1 }
+                        GradientStop { position: 1.0; color: Colors.bg2 }
+                    }
                     strokeColor: "transparent"
 
                     startX: root.slant
@@ -148,7 +154,13 @@ Scope {
                 height: root.shapeHeight
 
                 ShapePath {
-                    fillColor: Colors.bg1
+                    fillGradient: RadialGradient {
+                        centerX: root.shapeWidth / 2; centerY: root.shapeHeight / 2
+                        centerRadius: 200
+                        focalX: centerX; focalY: centerY
+                        GradientStop { position: 0.0; color: Colors.bg1 }
+                        GradientStop { position: 1.0; color: Colors.bg2 }
+                    }
                     strokeColor: "transparent"
 
                     startX: root.slant
@@ -205,7 +217,13 @@ Scope {
                 height: root.shapeHeight
 
                 ShapePath {
-                    fillColor: Colors.bg1
+                    fillGradient: RadialGradient {
+                        centerX: root.shapeWidth / 2; centerY: root.shapeHeight / 2
+                        centerRadius: 200
+                        focalX: centerX; focalY: centerY
+                        GradientStop { position: 0.0; color: Colors.bg1 }
+                        GradientStop { position: 1.0; color: Colors.bg2 }
+                    }
                     strokeColor: "transparent"
 
                     startX: root.slant
