@@ -6,6 +6,7 @@ import Quickshell.Hyprland
 import Quickshell.Widgets
 import Quickshell.Services.SystemTray
 import Quickshell.Services.Pipewire
+import Quickshell.Services.Mpris
 import Quickshell.Io
 
 Scope {
@@ -15,8 +16,14 @@ Scope {
     property int shapeHeight: 30
     property int slant: 30
 
-    // property string networkInfo: "Disconnected"
-    // property string networkType: "disconnected"
+    property var activePlayer: {
+        const players = Mpris.players.values;
+        if (!players || players.length === 0) return null;
+        for (const p of players) {
+        if (p.playbackState === MprisPlaybackState.Playing) return p;
+        }
+        return players[0];
+    }
         
     Variants {
         model: Quickshell.screens
@@ -226,16 +233,18 @@ Scope {
                 }
 
                 RowLayout {
-                    anchors.fill: parent
-                    anchors.leftMargin: 64
-                    anchors.rightMargin: 64
-                    spacing: 8
+                    anchors {
+                        right: parent.right
+                        verticalCenter: parent.verticalCenter
+                    }
+                    anchors.leftMargin: 32
+                    anchors.rightMargin: 32
+                    spacing: 12
 
                     // System Tray
                     Rectangle {
-                    implicitHeight: 24
-                    radius: 12
-                    color: "transparent"
+                        implicitHeight: 24
+                        color: "transparent"
 
                         RowLayout {
                         id: trayIcons
@@ -295,122 +304,155 @@ Scope {
                             }
                         }
                         }
-                }
-
-                // Divisor
-                Rectangle {
-                    anchors.centerIn: parent
-                    width: 1
-                    height: 16
-                    color: Colors.main1
-                }
-
-                // Volume
-                Rectangle {
-                    height: 24
-                    radius: 12
-                    color: "transparent"
-
-                    Accessible.role: Accessible.StaticText
-                    Accessible.name: {
-                    const sink = Pipewire.defaultAudioSink;
-                    if (!sink || !sink.audio) return "Volume";
-                    if (sink.audio.muted) return "Volume: muted";
-                    return "Volume: " + Math.round(sink.audio.volume * 100) + "%";
                     }
 
-                    Row {
-                    id: volContent
-                    anchors.centerIn: parent
-                    spacing: 6
-
-                    Text {
-                        anchors {
-                            right: parent.right
-                            verticalCenter: parent.verticalCenter
-                        }                        text: {
-                        const sink = Pipewire.defaultAudioSink;
-                        if (!sink || !sink.audio || sink.audio.muted || sink.audio.volume <= 0) return "󰖁";
-                        if (sink.audio.volume < 0.33) return "󰕿";
-                        if (sink.audio.volume < 0.66) return "󰖀";
-                        return "󰕾";
+                    // Divisor
+                    Item {
+                        implicitWidth: 20
+                        Rectangle {
+                            anchors {
+                                left: parent.left
+                                verticalCenter: parent.verticalCenter
+                            }
+                            width: 1
+                            height: 20
+                            color: Colors.main1
                         }
-                        color: {
+                    }
+
+                    // Volume
+                    Rectangle {
+                        implicitHeight: 24
+                        color: "transparent"
+
+                        Accessible.role: Accessible.StaticText
+                        Accessible.name: {
                         const sink = Pipewire.defaultAudioSink;
-                        if (!sink || !sink.audio || sink.audio.muted) return Colors.main3;
-                        return Colors.main1;
+                        if (!sink || !sink.audio) return "Volume";
+                        if (sink.audio.muted) return "Volume: muted";
+                        return "Volume: " + Math.round(sink.audio.volume * 100) + "%";
                         }
-                        font.pixelSize: Fonts.fontSize
-                        font.family: Fonts.fontFamily
-                    }
 
-                    Text {
-                        anchors.verticalCenter: parent.verticalCenter
-                        text: {
-                        const sink = Pipewire.defaultAudioSink;
-                        if (!sink || !sink.audio) return "–";
-                        if (sink.audio.muted) return "Mute";
-                        return Math.round(sink.audio.volume * 100) + "%";
+                        Row {
+                        id: volContent
+                        anchors.centerIn: parent
+                        spacing: 6
+
+                        Text {
+                            anchors {
+                                right: parent.right
+                                verticalCenter: parent.verticalCenter
+                            }                        
+                            text: {
+                                const sink = Pipewire.defaultAudioSink;
+                                if (!sink || !sink.audio || sink.audio.muted || sink.audio.volume <= 0) return "󰖁";
+                                if (sink.audio.volume < 0.33) return "󰕿";
+                                if (sink.audio.volume < 0.66) return "󰖀";
+                                return "󰕾";
+                            }
+                            color: {
+                                const sink = Pipewire.defaultAudioSink;
+                                if (!sink || !sink.audio || sink.audio.muted) return Colors.main3;
+                                return Colors.main1;
+                            }
+                            font.pixelSize: Fonts.fontSize
+                            font.family: Fonts.fontFamily
                         }
-                        color: Colors.main1
-                        font.pixelSize: Fonts.fontSize
-                        font.family: Fonts.fontFamily
+
+                        Text {
+                            anchors.verticalCenter: parent.verticalCenter
+                            text: {
+                                const sink = Pipewire.defaultAudioSink;
+                                if (!sink || !sink.audio) return "–";
+                                if (sink.audio.muted) return "Mute";
+                                return Math.round(sink.audio.volume * 100) + "%";
+                            }
+                            color: Colors.main1
+                            font.pixelSize: Fonts.fontSize
+                            font.family: Fonts.fontFamily
+                        }
+                        }
+
+                        MouseArea {
+                            anchors.fill: parent
+                            cursorShape: Qt.PointingHandCursor
+                            acceptedButtons: Qt.LeftButton
+                            onClicked: {
+                                const sink = Pipewire.defaultAudioSink;
+                                if (sink && sink.audio) sink.audio.muted = !sink.audio.muted;
+                            }
+                            onWheel: (wheel) => {
+                                const sink = Pipewire.defaultAudioSink;
+                                if (!sink || !sink.audio) return;
+                                const delta = wheel.angleDelta.y > 0 ? 0.05 : -0.05;
+                                sink.audio.volume = Math.max(0, Math.min(1.5, sink.audio.volume + delta));
+                            }
+                        }
                     }
+                    
+                    // Divisor
+                    Item {
+                        implicitWidth: 20
+                        Rectangle {
+                            anchors {
+                                right: parent.right
+                                verticalCenter: parent.verticalCenter
+                            }
+                            width: 1
+                            height: 20
+                            color: Colors.main1
+                        }
                     }
 
-                    MouseArea {
-                    anchors.fill: parent
-                    cursorShape: Qt.PointingHandCursor
-                    acceptedButtons: Qt.LeftButton
-                    onClicked: {
-                        const sink = Pipewire.defaultAudioSink;
-                        if (sink && sink.audio) sink.audio.muted = !sink.audio.muted;
-                    }
-                    onWheel: (wheel) => {
-                        const sink = Pipewire.defaultAudioSink;
-                        if (!sink || !sink.audio) return;
-                        const delta = wheel.angleDelta.y > 0 ? 0.05 : -0.05;
-                        sink.audio.volume = Math.max(0, Math.min(1.5, sink.audio.volume + delta));
-                    }
-                    }
-                }
+                    // Now Playing
+                    Rectangle {
+                        implicitHeight: 24
+                        implicitWidth: nowPlayingContent.width + 8
+                        color: "transparent"
+                        visible: root.activePlayer !== null
 
-                // Rectangle {
-                //     height: 24
-                //     radius: 12
-                //     color: "transparent"
-                //     Accessible.role: Accessible.StaticText
-                //     Accessible.name: {
-                //         if (networkType === "ethernet") return "Network: Ethernet"
-                //         if (networkType === "wifi") return "Network: WiFi " + networkInfo
-                //         return "Network: Disconnected"
-                //     }
+                        Accessible.role: Accessible.Button
+                        Accessible.name: {
+                            if (!root.activePlayer) return "No media";
+                            const artist = root.activePlayer.trackArtist || "";
+                            const title = root.activePlayer.trackTitle || "";
+                            return "Now playing: " + title;
+                        }
 
-                //     Row {
-                //         id: netContent
-                //         anchors.centerIn: parent
-                //         spacing: 6
+                        Row {
+                            id: nowPlayingContent
+                            anchors.centerIn: parent
+                            spacing: 6
 
-                //         Text {
-                //         anchors.verticalCenter: parent.verticalCenter
-                //         text: {
-                //             if (networkType === "ethernet") return "󰈀"
-                //             if (networkType === "wifi") return "󰖩"
-                //             return "󰖪"
-                //         }
-                //         color: networkType === "disconnected" ? Colors.main3 : Colors.main1
-                //         font.pixelSize: Fonts.fontSize
-                //         font.family: Fonts.fontFamily
-                //         }
-                //         Text {
-                //         anchors.verticalCenter: parent.verticalCenter
-                //         text: networkInfo
-                //         color: Colors.main1
-                //         font.pixelSize: Fonts.fontSize
-                //         font.family: Fonts.fontFamily
-                //         }
-                //     }
-                //     }
+                            Text {
+                                anchors.verticalCenter: parent.verticalCenter
+                                text: root.activePlayer && root.activePlayer.isPlaying ? "󰐊" : "󰏤"
+                                color: Colors.main1
+                                font.family: Fonts.fontFamily
+                                font.pixelSize: Fonts.fontSize
+                            }
+
+                            Text {
+                                anchors.verticalCenter: parent.verticalCenter
+                                text: {
+                                    if (!root.activePlayer) return "";
+                                    const title = root.activePlayer.trackTitle || "";
+                                    return title;
+                                }
+                                color: Colors.main1
+                                font.family: Fonts.fontFamily
+                                font.pixelSize: Fonts.smallFontSize
+                                elide: Text.ElideRight
+                                width: Math.min(implicitWidth, 160)
+                            }
+                        }
+
+                        MouseArea {
+                            anchors.fill: parent
+                            cursorShape: Qt.PointingHandCursor
+                            onClicked: root.activePlayer.togglePlaying()
+                        }
+                    }
                 }
             }
         }
