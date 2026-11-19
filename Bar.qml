@@ -388,14 +388,13 @@ Scope {
                     // System Tray
                     Rectangle {
                         implicitHeight: 24
-                        color: "transparent"
+                        implicitWidth: trayIcons.width + 8
+                        radius: 12
+                        color: Colors.shadow
 
                         RowLayout {
                         id: trayIcons
-                        anchors {
-                            right: parent.right
-                            verticalCenter: parent.verticalCenter
-                        }
+                        anchors.centerIn: parent
                         spacing: 2
                         Repeater {
                             model: SystemTray.items
