@@ -392,6 +392,8 @@ Scope {
                         radius: 12
                         color: Colors.shadow
 
+                        visible: trayIcons.width > 2
+
                         RowLayout {
                         id: trayIcons
                         anchors.centerIn: parent
@@ -451,6 +453,7 @@ Scope {
                     // Divisor
                     Item {
                         implicitWidth: 20
+                        visible: trayIcons.width > 2
                         Rectangle {
                             anchors {
                                 left: parent.left
