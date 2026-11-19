@@ -117,15 +117,13 @@ Scope {
                 // Workspaces
                 Repeater {
                     model: 8
-                    Text {
+                    Rectangle {
+                        implicitWidth: 24 + (isActive ? 8 : 0)
+                        implicitHeight: Fonts.fontSize
+                        radius: 12
                         property var ws: Hyprland.workspaces.values.find(w => w.id === index + 1)
                         property bool isActive: Hyprland.focusedWorkspace?.id === (index + 1)
-                        text: index + 1
                         color: isActive ? Colors.main2 : (ws ? Colors.main1 : Colors.main3)
-                        font { 
-                            family: Fonts.fontFamily
-                            pixelSize: Fonts.fontSize
-                            bold: true }
                         MouseArea {
                             anchors.fill: parent
                             onClicked: Hyprland.dispatch("workspace " + (index + 1))
