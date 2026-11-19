@@ -238,7 +238,7 @@ Scope {
                         verticalCenter: parent.verticalCenter
                     }
                     anchors.leftMargin: 32
-                    anchors.rightMargin: 32
+                    anchors.rightMargin: 64
                     spacing: 12
 
                     // System Tray
@@ -253,7 +253,6 @@ Scope {
                             verticalCenter: parent.verticalCenter
                         }
                         spacing: 2
-
                         Repeater {
                             model: SystemTray.items
 
@@ -392,6 +391,7 @@ Scope {
                     
                     // Divisor
                     Item {
+                        visible: root.activePlayer !== null
                         implicitWidth: 20
                         Rectangle {
                             anchors {
