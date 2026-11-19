@@ -426,7 +426,7 @@ Scope {
 
                             Text {
                                 anchors.verticalCenter: parent.verticalCenter
-                                text: root.activePlayer && root.activePlayer.isPlaying ? "󰐊" : "󰏤"
+                                text: root.activePlayer && root.activePlayer.isPlaying ? "󰏤" : "󰐊"
                                 color: Colors.main1
                                 font.family: Fonts.fontFamily
                                 font.pixelSize: Fonts.fontSize
