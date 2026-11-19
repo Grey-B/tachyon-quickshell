@@ -89,7 +89,7 @@ Scope {
 
                 ShapePath {
                     fillGradient: RadialGradient {
-                        centerX: root.shapeWidth / 2; centerY: root.shapeHeight / 2
+                        centerX: root.shapeWidth / 5; centerY: root.shapeHeight / 2
                         centerRadius: 200
                         focalX: centerX; focalY: centerY
                         GradientStop { position: 0.0; color: Colors.bg1 }
@@ -155,7 +155,7 @@ Scope {
 
                 ShapePath {
                     fillGradient: RadialGradient {
-                        centerX: root.shapeWidth / 2; centerY: root.shapeHeight / 2
+                        centerX: root.shapeWidth / 5; centerY: root.shapeHeight / 2
                         centerRadius: 200
                         focalX: centerX; focalY: centerY
                         GradientStop { position: 0.0; color: Colors.bg1 }
@@ -218,7 +218,7 @@ Scope {
 
                 ShapePath {
                     fillGradient: RadialGradient {
-                        centerX: root.shapeWidth / 2; centerY: root.shapeHeight / 2
+                        centerX: root.shapeWidth / 5; centerY: root.shapeHeight / 2
                         centerRadius: 200
                         focalX: centerX; focalY: centerY
                         GradientStop { position: 0.0; color: Colors.bg1 }
