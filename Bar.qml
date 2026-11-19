@@ -44,7 +44,7 @@ Scope {
                 right: 8
             }
 
-            implicitHeight: shapeHeight
+            implicitHeight: shapeHeight + 6
 
             Process {
                 id: netProc
@@ -77,6 +77,48 @@ Scope {
                 objects: [Pipewire.defaultAudioSink]
             }
 
+            // Left shadow
+            Shape {
+                anchors {
+                    left: parent.left
+                    bottom: parent.bottom
+                    leftMargin: 4
+                    bottomMargin: -4
+                }
+                width: root.shapeWidth
+                height: root.shapeHeight
+
+                ShapePath {
+
+                    fillColor: Colors.shadow
+                    strokeColor: "transparent"
+
+                    startX: root.slant
+                    startY: 0
+
+                    PathLine {
+                        x: root.shapeWidth
+                        y: 0
+                    }
+
+                    PathLine {
+                        x: root.shapeWidth - root.slant
+                        y: root.shapeHeight
+                    }
+
+                    PathLine {
+                        x: 0
+                        y: root.shapeHeight
+                    }
+
+                    PathLine {
+                        x: root.slant
+                        y: 0
+                    }
+                }
+            }
+
+            // Left bar
             Shape {
                 id: leftBar
                 anchors {
@@ -146,6 +188,48 @@ Scope {
                 }
             }
 
+            // Center shadow
+            Shape {
+                anchors {
+                    horizontalCenter: parent.horizontalCenter
+                    bottom: parent.bottom
+                    leftMargin: 4
+                    bottomMargin: -4
+                }
+                width: root.shapeWidth
+                height: root.shapeHeight
+
+                ShapePath {
+
+                    fillColor: Colors.shadow
+                    strokeColor: "transparent"
+
+                    startX: root.slant
+                    startY: 0
+
+                    PathLine {
+                        x: root.shapeWidth
+                        y: 0
+                    }
+
+                    PathLine {
+                        x: root.shapeWidth - root.slant
+                        y: root.shapeHeight
+                    }
+
+                    PathLine {
+                        x: 0
+                        y: root.shapeHeight
+                    }
+
+                    PathLine {
+                        x: root.slant
+                        y: 0
+                    }
+                }
+            }
+
+            // Center bar
             Shape {
                 id: centerBar
                 anchors.centerIn: parent
@@ -206,6 +290,48 @@ Scope {
                 }
             }
 
+            // Right shadow
+            Shape {
+                anchors {
+                    right: parent.right
+                    bottom: parent.bottom
+                    leftMargin: 4
+                    bottomMargin: -4
+                }
+                width: root.shapeWidth
+                height: root.shapeHeight
+
+                ShapePath {
+
+                    fillColor: Colors.shadow
+                    strokeColor: "transparent"
+
+                    startX: root.slant
+                    startY: 0
+
+                    PathLine {
+                        x: root.shapeWidth
+                        y: 0
+                    }
+
+                    PathLine {
+                        x: root.shapeWidth - root.slant
+                        y: root.shapeHeight
+                    }
+
+                    PathLine {
+                        x: 0
+                        y: root.shapeHeight
+                    }
+
+                    PathLine {
+                        x: root.slant
+                        y: 0
+                    }
+                }
+            }
+
+            // Right bar
             Shape {
                 id: rightBar
                 anchors {
