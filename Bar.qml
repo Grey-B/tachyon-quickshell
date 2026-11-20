@@ -355,7 +355,7 @@ Scope {
                         verticalCenter: parent.verticalCenter
                     }
                     anchors.leftMargin: 32
-                    anchors.rightMargin: 64
+                    anchors.rightMargin: 40
                     spacing: 12
 
                     // System Tray
@@ -521,7 +521,7 @@ Scope {
                     // Now Playing
                     Rectangle {
                         implicitHeight: 24
-                        implicitWidth: nowPlayingContent.width + 8
+                        implicitWidth: nowPlayingContent.width
                         color: "transparent"
                         visible: root.activePlayer !== null
 
@@ -557,7 +557,7 @@ Scope {
                                 font.family: Fonts.fontFamily
                                 font.pixelSize: Fonts.smallFontSize
                                 elide: Text.ElideRight
-                                width: Math.min(implicitWidth, 160)
+                                width: Math.min(implicitWidth, 150)
                             }
                         }
 
