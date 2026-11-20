@@ -46,33 +46,6 @@ Scope {
 
             implicitHeight: shapeHeight + 6
 
-            Process {
-                id: netProc
-                command: ["sh", "-c", "eth=$(nmcli -t -f type,state dev 2>/dev/null | grep '^ethernet:connected'); if [ -n \"$eth\" ]; then echo 'ethernet:Ethernet'; else wifi=$(nmcli -t -f active,ssid dev wifi 2>/dev/null | grep '^yes' | cut -d: -f2); if [ -n \"$wifi\" ]; then echo \"wifi:$wifi\"; else echo 'disconnected:'; fi; fi"]
-                running: true
-
-                stdout: StdioCollector {
-                onStreamFinished: {
-                    const result = text.trim()
-                    const colonIdx = result.indexOf(':')
-                    const type = result.substring(0, colonIdx)
-                    const info = result.substring(colonIdx + 1)
-                    root.networkType = type
-                    root.networkInfo = info || "Disconnected"
-                }
-                }
-            }
-
-            // Update your timer to run processes
-            // Timer {
-            //     interval: 2000
-            //     running: true
-            //     repeat: true
-            //     onTriggered: {
-            //         netProc.running = true
-            //     }
-            // }
-
             PwObjectTracker {
                 objects: [Pipewire.defaultAudioSink]
             }
