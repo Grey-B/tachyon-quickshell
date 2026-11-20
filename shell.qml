@@ -7,4 +7,5 @@ Scope {
     id: root
 
     Bar {}
+    WallpaperManager {}
 }
