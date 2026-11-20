@@ -12,8 +12,6 @@ Scope {
 
   function applyWallpaper(path) {
     WallpaperService.setWallpaper(path);
-    if (Colors.wallpaperMode && typeof Colors.setWallpaperFromImage === "function")
-      Colors.setWallpaperFromImage(path);
   }
 
   IpcHandler {
@@ -65,7 +63,7 @@ Scope {
 
       Rectangle {
         anchors.fill: parent
-        color: Colors.bgOverlay
+        color: "transparent"
       }
     }
 
@@ -75,8 +73,8 @@ Scope {
       width: 720
       height: 560
       radius: 16
-      color: Colors.bgBase
-      border.color: Colors.bgBorder
+      color: Colors.bg1
+      border.color: Colors.shadow
       border.width: 1
 
       MouseArea {
@@ -96,7 +94,7 @@ Scope {
 
           Text {
             text: "󰸉  Wallpaper"
-            color: Colors.accentPrimary
+            color: Colors.main2
             font.pixelSize: 14
             font.family: Fonts.fontFamily
             font.bold: true
@@ -106,7 +104,7 @@ Scope {
 
           Text {
             text: root.filteredWallpapers.length + " images"
-            color: Colors.textMuted
+            color: Colors.main1
             font.pixelSize: 11
             font.family: Fonts.fontFamily
           }
@@ -116,14 +114,14 @@ Scope {
             width: 28
             height: 28
             radius: 14
-            color: refreshHover.containsMouse ? Colors.bgHover : "transparent"
+            color: refreshHover.containsMouse ? Colors.bg2 : "transparent"
             Accessible.role: Accessible.Button
             Accessible.name: "Refresh wallpaper list"
 
             Text {
               anchors.centerIn: parent
               text: "󰑐"
-              color: Colors.textMuted
+              color: Colors.bg1
               font.pixelSize: 14
               font.family: Fonts.fontFamily
             }
@@ -143,8 +141,8 @@ Scope {
           Layout.fillWidth: true
           height: 36
           radius: 8
-          color: Colors.bgSurface
-          border.color: searchInput.activeFocus ? Colors.accentPrimary : Colors.bgBorder
+          color: Colors.bg2
+          border.color: searchInput.activeFocus ? Colors.main2 : Colors.shadow
           border.width: 1
 
           RowLayout {
@@ -155,7 +153,7 @@ Scope {
 
             Text {
               text: ""
-              color: Colors.textMuted
+              color: Colors.main1
               font.pixelSize: 13
               font.family: Fonts.fontFamily
               Layout.alignment: Qt.AlignVCenter
@@ -165,7 +163,7 @@ Scope {
               id: searchInput
               Layout.fillWidth: true
               Layout.alignment: Qt.AlignVCenter
-              color: Colors.textPrimary
+              color: Colors.main1
               font.pixelSize: 13
               font.family: Fonts.fontFamily
               clip: true
@@ -185,7 +183,7 @@ Scope {
 
             Text {
               text: "Search wallpapers..."
-              color: Colors.textMuted
+              color: Colors.main1
               font.pixelSize: 13
               font.family: Fonts.fontFamily
               visible: searchInput.text === "" && !searchInput.activeFocus
@@ -218,8 +216,8 @@ Scope {
               anchors.fill: parent
               anchors.margins: 4
               radius: 8
-              color: Colors.bgSurface
-              border.color: WallpaperService.currentWallpaper === modelData ? Colors.accentPrimary : (imgHover.containsMouse ? Colors.bgBorder : "transparent")
+              color: Colors.bg2
+              border.color: WallpaperService.currentWallpaper === modelData ? Colors.main2 : (imgHover.containsMouse ? Colors.shadow : "transparent")
               border.width: WallpaperService.currentWallpaper === modelData ? 2 : 1
               clip: true
 
@@ -234,13 +232,13 @@ Scope {
 
                 Rectangle {
                   anchors.fill: parent
-                  color: Colors.bgSurface
+                  color: Colors.bg2
                   visible: parent.status !== Image.Ready
 
                   Text {
                     anchors.centerIn: parent
                     text: "󰋩"
-                    color: Colors.textMuted
+                    color: Colors.main1
                     font.pixelSize: 24
                     font.family: Fonts.fontFamily
                   }
@@ -281,7 +279,7 @@ Scope {
                 Text {
                   anchors.centerIn: parent
                   text: ""
-                  color: Colors.bgBase
+                  color: Colors.bg1
                   font.pixelSize: 12
                   font.family: Fonts.fontFamily
                 }
@@ -308,7 +306,7 @@ Scope {
           Text {
             anchors.centerIn: parent
             text: "󰋩  No wallpapers found\nAdd images to ~/Pictures/Wallpapers/"
-            color: Colors.textMuted
+            color: Colors.main1
             font.pixelSize: 13
             font.family: Fonts.fontFamily
             horizontalAlignment: Text.AlignHCenter
@@ -324,24 +322,24 @@ Scope {
           Row {
             spacing: 4
             Rectangle {
-              width: hintClick.width + 8; height: 18; radius: 4; color: Colors.bgSurface
-              Text { id: hintClick; anchors.centerIn: parent; text: "click"; color: Colors.textMuted; font.pixelSize: 10; font.family: Fonts.fontFamily }
+              width: hintClick.width + 8; height: 18; radius: 4; color: Colors.bg2
+              Text { id: hintClick; anchors.centerIn: parent; text: "click"; color: Colors.main1; font.pixelSize: 10; font.family: Fonts.fontFamily }
             }
-            Text { text: "apply"; color: Colors.textMuted; font.pixelSize: 10; font.family: Fonts.fontFamily; anchors.verticalCenter: parent.verticalCenter }
+            Text { text: "apply"; color: Colors.main1; font.pixelSize: 10; font.family: Fonts.fontFamily; anchors.verticalCenter: parent.verticalCenter }
           }
 
           Row {
             spacing: 4
             Rectangle {
-              width: hintRight.width + 8; height: 18; radius: 4; color: Colors.bgSurface
-              Text { id: hintRight; anchors.centerIn: parent; text: "right-click"; color: Colors.textMuted; font.pixelSize: 10; font.family: Fonts.fontFamily }
+              width: hintRight.width + 8; height: 18; radius: 4; color: Colors.bg2
+              Text { id: hintRight; anchors.centerIn: parent; text: "right-click"; color: Colors.main1; font.pixelSize: 10; font.family: Fonts.fontFamily }
             }
-            Text { text: "preview"; color: Colors.textMuted; font.pixelSize: 10; font.family: Fonts.fontFamily; anchors.verticalCenter: parent.verticalCenter }
+            Text { text: "preview"; color: Colors.main1; font.pixelSize: 10; font.family: Fonts.fontFamily; anchors.verticalCenter: parent.verticalCenter }
           }
 
           Row {
             spacing: 4
-            Text { text: "Backend: " + WallpaperService.backend; color: Colors.textMuted; font.pixelSize: 10; font.family: Fonts.fontFamily; anchors.verticalCenter: parent.verticalCenter }
+            Text { text: "Backend: " + WallpaperService.backend; color: Colors.main1; font.pixelSize: 10; font.family: Fonts.fontFamily; anchors.verticalCenter: parent.verticalCenter }
           }
 
           Item { Layout.fillWidth: true }
@@ -377,7 +375,7 @@ Scope {
         width: applyRow.width + 32
         height: 40
         radius: 20
-        color: Colors.accentPrimary
+        color: Colors.main2
         Accessible.role: Accessible.Button
         Accessible.name: "Apply wallpaper"
 
@@ -388,14 +386,14 @@ Scope {
 
           Text {
             text: ""
-            color: Colors.bgBase
+            color: Colors.bg1
             font.pixelSize: 14
             font.family: Fonts.fontFamily
             anchors.verticalCenter: parent.verticalCenter
           }
           Text {
             text: "Apply Wallpaper"
-            color: Colors.bgBase
+            color: Colors.bg1
             font.pixelSize: 13
             font.family: Fonts.fontFamily
             font.bold: true
