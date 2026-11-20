@@ -107,8 +107,8 @@ Scope {
                         centerX: root.shapeWidth / 5; centerY: root.shapeHeight / 2
                         centerRadius: 200
                         focalX: centerX; focalY: centerY
-                        GradientStop { position: 0.0; color: Colors.bg1 }
-                        GradientStop { position: 1.0; color: Colors.bg2 }
+                        GradientStop { position: 0.0; color: Colors.bgLight }
+                        GradientStop { position: 1.0; color: Colors.bgDark }
                     }
                     strokeColor: "transparent"
 
@@ -151,7 +151,7 @@ Scope {
                         radius: 12
                         property var ws: Hyprland.workspaces.values.find(w => w.id === index + 1)
                         property bool isActive: Hyprland.focusedWorkspace?.id === (index + 1)
-                        color: isActive ? Colors.main2 : (ws ? Colors.main1 : Colors.main3)
+                        color: isActive ? Colors.textAccent : (ws ? Colors.textPrimary : Colors.textError)
                         MouseArea {
                             anchors.fill: parent
                             onClicked: Hyprland.dispatch("workspace " + (index + 1))
@@ -215,8 +215,8 @@ Scope {
                         centerX: root.shapeWidth / 5; centerY: root.shapeHeight / 2
                         centerRadius: 200
                         focalX: centerX; focalY: centerY
-                        GradientStop { position: 0.0; color: Colors.bg1 }
-                        GradientStop { position: 1.0; color: Colors.bg2 }
+                        GradientStop { position: 0.0; color: Colors.bgLight }
+                        GradientStop { position: 1.0; color: Colors.bgDark }
                     }
                     strokeColor: "transparent"
 
@@ -248,7 +248,7 @@ Scope {
                 Text {
                     id: clock
                     anchors.centerIn: parent
-                    color: Colors.main1
+                    color: Colors.textPrimary
                     font {
                         family: Fonts.fontFamily
                         pixelSize: Fonts.fontSize
@@ -320,8 +320,8 @@ Scope {
                         centerX: root.shapeWidth / 5; centerY: root.shapeHeight / 2
                         centerRadius: 200
                         focalX: centerX; focalY: centerY
-                        GradientStop { position: 0.0; color: Colors.bg1 }
-                        GradientStop { position: 1.0; color: Colors.bg2 }
+                        GradientStop { position: 0.0; color: Colors.bgLight }
+                        GradientStop { position: 1.0; color: Colors.bgDark }
                     }
                     strokeColor: "transparent"
 
@@ -363,7 +363,7 @@ Scope {
                         implicitHeight: 24
                         implicitWidth: trayIcons.width + 8
                         radius: 12
-                        color: Colors.shadow
+                        color: Colors.bgMuted
 
                         visible: trayIcons.width > 2
 
@@ -434,7 +434,7 @@ Scope {
                             }
                             width: 1
                             height: 20
-                            color: Colors.main1
+                            color: Colors.textPrimary
                         }
                     }
 
@@ -466,8 +466,8 @@ Scope {
                             }
                             color: {
                                 const sink = Pipewire.defaultAudioSink;
-                                if (!sink || !sink.audio || sink.audio.muted) return Colors.main3;
-                                return Colors.main1;
+                                if (!sink || !sink.audio || sink.audio.muted) return Colors.textError;
+                                return Colors.textPrimary;
                             }
                             font.pixelSize: Fonts.fontSize
                             font.family: Fonts.fontFamily
@@ -480,7 +480,7 @@ Scope {
                                 if (sink.audio.muted) return "Mute";
                                 return Math.round(sink.audio.volume * 100) + "%";
                             }
-                            color: Colors.main1
+                            color: Colors.textPrimary
                             font.pixelSize: Fonts.fontSize
                             font.family: Fonts.fontFamily
                         }
@@ -514,7 +514,7 @@ Scope {
                             }
                             width: 1
                             height: 20
-                            color: Colors.main1
+                            color: Colors.textPrimary
                         }
                     }
 
@@ -541,7 +541,7 @@ Scope {
                             Text {
                                 anchors.verticalCenter: parent.verticalCenter
                                 text: root.activePlayer && root.activePlayer.isPlaying ? "󰏤" : "󰐊"
-                                color: Colors.main1
+                                color: Colors.textPrimary
                                 font.family: Fonts.fontFamily
                                 font.pixelSize: Fonts.fontSize
                             }
@@ -553,7 +553,7 @@ Scope {
                                     const title = root.activePlayer.trackTitle || "";
                                     return title;
                                 }
-                                color: Colors.main1
+                                color: Colors.textPrimary
                                 font.family: Fonts.fontFamily
                                 font.pixelSize: Fonts.smallFontSize
                                 elide: Text.ElideRight
