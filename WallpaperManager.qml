@@ -73,7 +73,10 @@ Scope {
       width: 720
       height: 560
       radius: 16
-      color: Colors.bg1
+      gradient: Gradient {
+            GradientStop { position: 0.0; color: Colors.bg1 }
+            GradientStop { position: 1.0; color: Colors.bg2 }
+        }
       border.color: Colors.shadow
       border.width: 1
 
