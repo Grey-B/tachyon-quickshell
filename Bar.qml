@@ -356,7 +356,7 @@ Scope {
                     }
                     anchors.leftMargin: 32
                     anchors.rightMargin: 40
-                    spacing: 12
+                    spacing: 4
 
                     // System Tray
                     Rectangle {
@@ -441,6 +441,7 @@ Scope {
                     // Volume
                     Rectangle {
                         implicitHeight: 24
+                        implicitWidth: volContent.width
                         color: "transparent"
 
                         Accessible.role: Accessible.StaticText
@@ -456,34 +457,34 @@ Scope {
                         anchors.centerIn: parent
                         spacing: 6
 
-                        Text {        
-                            text: {
-                                const sink = Pipewire.defaultAudioSink;
-                                if (!sink || !sink.audio || sink.audio.muted || sink.audio.volume <= 0) return "󰖁";
-                                if (sink.audio.volume < 0.33) return "󰕿";
-                                if (sink.audio.volume < 0.66) return "󰖀";
-                                return "󰕾";
+                            Text {        
+                                text: {
+                                    const sink = Pipewire.defaultAudioSink;
+                                    if (!sink || !sink.audio || sink.audio.muted || sink.audio.volume <= 0) return "󰖁";
+                                    if (sink.audio.volume < 0.33) return "󰕿";
+                                    if (sink.audio.volume < 0.66) return "󰖀";
+                                    return "󰕾";
+                                }
+                                color: {
+                                    const sink = Pipewire.defaultAudioSink;
+                                    if (!sink || !sink.audio || sink.audio.muted) return Colors.textError;
+                                    return Colors.textPrimary;
+                                }
+                                font.pixelSize: Fonts.fontSize
+                                font.family: Fonts.fontFamily
                             }
-                            color: {
-                                const sink = Pipewire.defaultAudioSink;
-                                if (!sink || !sink.audio || sink.audio.muted) return Colors.textError;
-                                return Colors.textPrimary;
-                            }
-                            font.pixelSize: Fonts.fontSize
-                            font.family: Fonts.fontFamily
-                        }
 
-                        Text {
-                            text: {
-                                const sink = Pipewire.defaultAudioSink;
-                                if (!sink || !sink.audio) return "–";
-                                if (sink.audio.muted) return "Mute";
-                                return Math.round(sink.audio.volume * 100) + "%";
+                            Text {
+                                text: {
+                                    const sink = Pipewire.defaultAudioSink;
+                                    if (!sink || !sink.audio) return "–";
+                                    if (sink.audio.muted) return "Mute";
+                                    return Math.round(sink.audio.volume * 100) + "%";
+                                }
+                                color: Colors.textPrimary
+                                font.pixelSize: Fonts.fontSize
+                                font.family: Fonts.fontFamily
                             }
-                            color: Colors.textPrimary
-                            font.pixelSize: Fonts.fontSize
-                            font.family: Fonts.fontFamily
-                        }
                         }
 
                         MouseArea {
