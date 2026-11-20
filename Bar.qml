@@ -456,11 +456,7 @@ Scope {
                         anchors.centerIn: parent
                         spacing: 6
 
-                        Text {
-                            anchors {
-                                right: parent.right
-                                verticalCenter: parent.verticalCenter
-                            }                        
+                        Text {        
                             text: {
                                 const sink = Pipewire.defaultAudioSink;
                                 if (!sink || !sink.audio || sink.audio.muted || sink.audio.volume <= 0) return "󰖁";
@@ -478,7 +474,6 @@ Scope {
                         }
 
                         Text {
-                            anchors.verticalCenter: parent.verticalCenter
                             text: {
                                 const sink = Pipewire.defaultAudioSink;
                                 if (!sink || !sink.audio) return "–";
