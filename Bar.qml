@@ -55,7 +55,7 @@ Scope {
                 anchors {
                     left: parent.left
                     bottom: parent.bottom
-                    leftMargin: 4
+                    leftMargin: 0
                     bottomMargin: -4
                 }
                 width: root.shapeWidth
