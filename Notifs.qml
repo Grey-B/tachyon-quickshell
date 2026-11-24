@@ -50,6 +50,12 @@ Scope {
           border.color: modelData.urgency === NotificationUrgency.Critical
           ? Colors.textError : Colors.textPrimary
 
+          Timer {
+            running: card.modelData.urgency !== NotificationUrgency.Critical
+            interval: 5000
+            onTriggered: card.modelData.dismiss()
+          }
+
           ColumnLayout {
             id: layout
             anchors.fill: parent
