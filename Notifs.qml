@@ -76,16 +76,16 @@ Scope {
         }
 
         Rectangle {
-          implicitHeight: clearAllText.height
-          implicitWidth: clearAllText.width
+          visible: history.count > 0
+          implicitHeight: clearAllText.height + 4
+          implicitWidth: clearAllText.width + 16
           color: Colors.textError
           radius: 12
 
           Text {
-            anchors.fill: parent
             id: clearAllText
+            anchors.centerIn: parent
             text: "Clear all"
-            visible: history.count > 0
             color: Colors.shadow
             font.family: Fonts.fontFamily
             font.pixelSize: Fonts.smallFontSize
