@@ -97,6 +97,115 @@ Scope {
           }
         }
       }
+
+      Repeater {
+        model: history
+
+        Rectangle {
+          id: card
+          required property var modelData
+
+          Layout.fillWidth: true
+          Layout.preferredHeight: layout.implicitHeight + 20
+          radius: 8
+          gradient: Gradient {
+            GradientStop { position: 0.0; color: Colors.bgDark}
+            GradientStop { position: 1.0; color: Colors.bgLight }
+          }
+          border.width: 2
+          border.color: modelData.urgency === NotificationUrgency.Critical
+          ? Colors.textError : Colors.textPrimary
+
+          ColumnLayout {
+            id: layout
+            anchors.fill: parent
+            anchors.margins: 10
+            spacing: 10
+            
+            Rectangle {
+              Layout.preferredHeight: title.height
+              Layout.preferredWidth: parent.width
+              radius: 20
+              color: Colors.bgLight
+              border.width: 2
+              border.color: Colors.textPrimary
+
+              RowLayout {
+                id: title
+                anchors.leftMargin: 8
+                anchors.rightMargin: 8
+                anchors.left: parent.left
+                anchors.right: parent.right
+                spacing: 12 
+
+                Text {
+                  Layout.fillWidth: true
+                  text: card.modelData.summary
+                  color: Colors.textPrimary
+                  font.family: Fonts.fontFamily
+                  font.pixelSize: Fonts.fontSize
+                  font.bold: true
+                  elide: Text.ElideRight
+                }
+
+                Text {
+                  text: modelData.time
+                  color: Colors.textPrimary
+                  font.family: Fonts.fontFamily
+                  font.pixelSize: Fonts.smallFontSize
+                }
+                
+                Rectangle {
+                  implicitHeight: clearNotif.height
+                  implicitWidth: height
+                  radius: 20
+                  color: Colors.textError
+
+                  Text {
+                    id: clearNotif
+                    anchors.centerIn: parent
+                    text: "x"
+                    color: Colors.shadow
+                    font.family: Fonts.fontFamily
+                    font.pixelSize: Fonts.smallFontSize
+                  }
+                  
+                  MouseArea {
+                    anchors.fill: parent
+                    onClicked: history.remove(modelData.index)
+                  }
+                }
+              }
+            }
+
+            Rectangle {
+              Layout.preferredHeight: body.height + 32
+              Layout.preferredWidth: parent.width
+              color: "transparent"
+              border.width: 1
+              border.color: Colors.textPrimary
+              radius: 4
+
+              Text {
+                id: body
+                anchors.topMargin: 16
+                anchors.bottomMargin: 16
+                anchors.leftMargin: 8
+                anchors.rightMargin: 8
+                anchors.top: parent.top
+                anchors.left: parent.left
+
+                visible: text !== ""
+                text: card.modelData.body
+                color: Colors.textPrimary
+                font.family: Fonts.fontFamily
+                font.pixelSize: Fonts.smallFontSize
+                wrapMode: Text.WordWrap
+              }
+            }
+          }
+        }
+      }
     }
   }
 
