@@ -168,6 +168,7 @@ Scope {
                     color: Colors.shadow
                     font.family: Fonts.fontFamily
                     font.pixelSize: Fonts.smallFontSize
+                    font.bold: true
                   }
                   
                   MouseArea {
