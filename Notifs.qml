@@ -52,53 +52,74 @@ Scope {
             anchors.fill: parent
             anchors.margins: 10
             spacing: 10
+            
+            Rectangle {
+              Layout.preferredHeight: innerTop.height
+              Layout.preferredWidth: parent.width
+              radius: 20
+              color: Colors.bgLight
+              border.width: 2
+              border.color: Colors.textPrimary
 
-            RowLayout {
-              id: innerTop
-              spacing: 12
+              RowLayout {
+                id: innerTop
+                anchors.margins: 12
+                spacing: 12
               
-              Image {
-                id: img
-                Layout.preferredHeight: 36
-                Layout.preferredWidth: 36
-                Layout.alignment: Qt.AlignTop
-                fillMode: Image.PreserveAspectFit
-                visible: source.toString() !== ""
-                source: card.modelData.image || card.modelData.appIcon || ""
-                layer.enabled: true
-                layer.effect: OpacityMask {
-                  maskSource: Item {
-                    width: img.width
-                    height: img.height
-                    Rectangle {
-                      anchors.centerIn: parent
-                      width: img.adapt ? img.width : Math.min(img.width, img.height)
-                      height: img.adapt ? img.height : width
-                      radius: Math.min(width, height)
+                Image {
+                  id: img
+                  Layout.preferredHeight: 36
+                  Layout.preferredWidth: 36
+                  Layout.alignment: Qt.AlignTop
+                  fillMode: Image.PreserveAspectFit
+                  visible: source.toString() !== ""
+                  source: card.modelData.image || card.modelData.appIcon || ""
+                  layer.enabled: true
+                  layer.effect: OpacityMask {
+                    maskSource: Item {
+                      width: img.width
+                      height: img.height
+                      Rectangle {
+                        anchors.centerIn: parent
+                        width: img.adapt ? img.width : Math.min(img.width, img.height)
+                        height: img.adapt ? img.height : width
+                        radius: Math.min(width, height)
+                      }
                     }
                   }
                 }
-              }
 
-              Text {
-                Layout.fillWidth: true
-                text: card.modelData.summary
-                color: Colors.textPrimary
-                font.family: Fonts.fontFamily
-                font.pixelSize: Fonts.fontSize
-                font.bold: true
-                elide: Text.ElideRight
+                Text {
+                  Layout.fillWidth: true
+                  text: card.modelData.summary
+                  color: Colors.textPrimary
+                  font.family: Fonts.fontFamily
+                  font.pixelSize: Fonts.fontSize
+                  font.bold: true
+                  elide: Text.ElideRight
+                }
               }
             }
+            
 
-            Text {
-              Layout.fillWidth: true
-              visible: text !== ""
-              text: card.modelData.body
-              color: Colors.textPrimary
-              font.family: Fonts.fontFamily
-              font.pixelSize: Fonts.smallFontSize
-              wrapMode: Text.WordWrap
+            Rectangle {
+              Layout.preferredHeight: body.height
+              Layout.preferredWidth: parent.width
+              color: "transparent"
+              border.width: 1
+              border.color: Colors.textPrimary
+              radius: 4
+
+              Text {
+                id: body
+                anchors.margins: 8
+                visible: text !== ""
+                text: card.modelData.body
+                color: Colors.textPrimary
+                font.family: Fonts.fontFamily
+                font.pixelSize: Fonts.smallFontSize
+                wrapMode: Text.WordWrap
+              }
             }
           }
         }
