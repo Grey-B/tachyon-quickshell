@@ -98,6 +98,14 @@ Scope {
         }
       }
 
+      Text {
+        text: "No notifications found"
+        visible: history.count === 0
+        color: Colors.textPrimary
+        font.family: Fonts.fontFamily
+        font.pixelSize: Fonts.fontSize
+      }
+
       Repeater {
         model: history
 
