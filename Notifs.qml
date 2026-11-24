@@ -42,7 +42,10 @@ Scope {
           Layout.fillWidth: true
           Layout.preferredHeight: layout.implicitHeight + 20
           radius: 8
-          color: Colors.bgDark
+          gradient: Gradient {
+            GradientStop { position: 0.0; color: Colors.bgDark}
+            GradientStop { position: 1.0; color: Colors.bgLight }
+          }
           border.width: 2
           border.color: modelData.urgency === NotificationUrgency.Critical
           ? Colors.textError : Colors.textPrimary
