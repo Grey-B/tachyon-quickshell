@@ -43,7 +43,7 @@ Scope {
           Layout.preferredHeight: layout.implicitHeight + 20
           radius: 8
           color: Colors.bgDark
-          border.width: 1
+          border.width: 2
           border.color: modelData.urgency === NotificationUrgency.Critical
           ? Colors.textError : Colors.textPrimary
 
@@ -54,7 +54,7 @@ Scope {
             spacing: 10
             
             Rectangle {
-              Layout.preferredHeight: innerTop.height
+              Layout.preferredHeight: title.height
               Layout.preferredWidth: parent.width
               radius: 20
               color: Colors.bgLight
@@ -62,14 +62,17 @@ Scope {
               border.color: Colors.textPrimary
 
               RowLayout {
-                id: innerTop
-                anchors.margins: 12
+                id: title
+                anchors.leftMargin: 3
+                anchors.rightMargin: 8
+                anchors.left: parent.left
+                anchors.right: parent.right
                 spacing: 12
               
                 Image {
                   id: img
-                  Layout.preferredHeight: 36
-                  Layout.preferredWidth: 36
+                  Layout.preferredHeight: 40
+                  Layout.preferredWidth: 40
                   Layout.alignment: Qt.AlignTop
                   fillMode: Image.PreserveAspectFit
                   visible: source.toString() !== ""
@@ -103,7 +106,7 @@ Scope {
             
 
             Rectangle {
-              Layout.preferredHeight: body.height
+              Layout.preferredHeight: body.height + 32
               Layout.preferredWidth: parent.width
               color: "transparent"
               border.width: 1
@@ -112,7 +115,13 @@ Scope {
 
               Text {
                 id: body
-                anchors.margins: 8
+                anchors.topMargin: 16
+                anchors.bottomMargin: 16
+                anchors.leftMargin: 8
+                anchors.rightMargin: 8
+                anchors.top: parent.top
+                anchors.left: parent.left
+
                 visible: text !== ""
                 text: card.modelData.body
                 color: Colors.textPrimary
