@@ -1,4 +1,5 @@
 import Quickshell
+import Quickshell.Io
 import Quickshell.Wayland
 import Quickshell.Services.Notifications
 import QtQuick
@@ -7,6 +8,9 @@ import Qt5Compat.GraphicalEffects
 
 Scope {
   id: root
+  property bool centerOpen: false
+
+  ListModel { id: history }
 
   NotificationServer {
     id: server
@@ -14,21 +18,101 @@ Scope {
     bodySupported: true
     imageSupported: true
 
-    onNotification: n => n.tracked = true
+    onNotification: n => {
+      history.insert(0, {
+        summary: n.summary,
+        body: n.body,
+        appName: n.appName,
+        urgency: n.urgency,
+        time: Qt.formatDateTime(new Date(), "HH:mm")
+      })
+      n.tracked = true
+    }
   }
 
+  IpcHandler {
+    target: "notifications"
+    function toggle(): void { root.centerOpen = !root.centerOpen }
+    function show(): void { root.centerOpen = true }
+    function hide(): void { root.centerOpen = false }
+  }
+
+  //Notification center
   PanelWindow {
-    id: basePanel
+    id: notifCenter
+    visible: root.centerOpen
+
+    anchors { top: true; right: true }
+    margins { top: 48; right: 8 }
+    implicitWidth: 380
+    implicitHeight: centerCol.implicitHeight + 24
+    color: "transparent"
+    exclusionMode: ExclusionMode.Ignore
+    
+    Rectangle {
+      anchors.fill: parent
+      radius: 10
+      color: Colors.bgDark
+      border.width: 2
+      border.color: Colors.textAccent
+    }
+
+    ColumnLayout {
+      id: centerCol
+      anchors.fill: parent
+      anchors.margins: 12
+      spacing: 10
+
+      RowLayout {
+        Layout.fillWidth: true
+
+        Text {
+          Layout.fillWidth: true
+          text: "Notifications"
+          color: Colors.textAccent
+          font.family: Fonts.fontFamily
+          font.pixelSize: Fonts.fontSize
+          font.bold: true
+        }
+
+        Rectangle {
+          implicitHeight: clearAllText.height
+          implicitWidth: clearAllText.width
+          color: Colors.textError
+          radius: 12
+
+          Text {
+            anchors.fill: parent
+            id: clearAllText
+            text: "Clear all"
+            visible: history.count > 0
+            color: Colors.shadow
+            font.family: Fonts.fontFamily
+            font.pixelSize: Fonts.smallFontSize
+          }
+
+          MouseArea {
+            anchors.fill: parent
+            onClicked: history.clear()
+          }
+        }
+      }
+    }
+  }
+
+  // Notifications
+  PanelWindow {
+      id: notifsPanel
     
     anchors { top: true; right: true }
     margins { top: 48; right: 8 }
     implicitWidth: 380
-    implicitHeight: Math.max(1, column.implicitHeight)
+    implicitHeight: Math.max(1, columnNotifs.implicitHeight)
     color: "transparent"
     exclusionMode: ExclusionMode.Ignore
 
     ColumnLayout {
-      id: column
+      id: columnNotifs
       width: parent.width
       spacing: 10
 
@@ -72,7 +156,7 @@ Scope {
 
               RowLayout {
                 id: title
-                anchors.leftMargin: 3
+                anchors.leftMargin: 8
                 anchors.rightMargin: 8
                 anchors.left: parent.left
                 anchors.right: parent.right
