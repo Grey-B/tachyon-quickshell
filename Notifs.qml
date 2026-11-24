@@ -134,6 +134,11 @@ Scope {
               }
             }
           }
+
+          MouseArea {
+            anchors.fill: parent
+            onClicked: card.modelData.dismiss()
+          }
         }
       }
     }
